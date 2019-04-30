@@ -8,7 +8,7 @@
             "name": "Debug",
             "type": "flow",
             "request": "launch",
-            "target": "simpulator.flow",
+            "target": "src/simpulator.flow",
             "cwd": "${workspaceRoot}",
             "runner_path": "${config:flow.root}/bin/flowcpp",
             "compiler": "${command:FlowCompiler}"

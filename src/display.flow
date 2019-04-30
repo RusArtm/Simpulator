@@ -1,5 +1,5 @@
-import common;
-import state;
+import src/common;
+import src/state;
 
 export {
 	makeDisplay(state : SimpulatorState) -> Material;

@@ -2,9 +2,9 @@ import rendersupport;
 import material/material_manager;
 import flowutils;
 import runtime;
-import state;
-import display;
-import keyboard;
+import src/state;
+import src/display;
+import src/keyboard;
 
 main() {
 	setWindowTitle("Simple flow9 calculator");
