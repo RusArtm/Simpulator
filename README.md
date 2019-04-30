@@ -8,3 +8,6 @@ To test this project you first need to set up Flow9 itself. You can download it 
 For Windows just run `start.bat` to compile and launch application in a window. Or `build_sj.bat` to build JS file.
 
 For Unix/Linux/Mac just referr to the bat files to find out commands needed.
+
+The repository contains project file for VSCode.
+It is also configured to run with debbuger in CPP target.
