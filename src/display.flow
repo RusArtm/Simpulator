@@ -34,7 +34,16 @@ expression2str(expression : Expression) -> string {
 			i2s(trunc(val));
 		}
 		BinaryOperation(op1, op2, type): {
-			expression2str(op1) + opType2str(type) + expression2str(op2)
+			formatString(
+				"%1%2%3 %4 %5",
+				[
+					if (type == Multiplication()) "(" else "",
+					expression2str(op1),
+					if (type == Multiplication()) ")" else "",
+					opType2str(type),
+					expression2str(op2),
+				]
+			);
 		}
 	}
 }

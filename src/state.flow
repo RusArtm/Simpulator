@@ -35,9 +35,9 @@ str2OperationType(s : string) -> OperationType {
 
 opType2str(type : OperationType) -> string {
 	switch (type) {
-		Addition(): " + ";
-		Subtraction(): " - ";
-		Multiplication(): " * ";
+		Addition(): "+";
+		Subtraction(): "-";
+		Multiplication(): "*";
 	}
 }
 
