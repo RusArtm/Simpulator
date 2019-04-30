@@ -1,0 +1,1 @@
+call flowc1 js=simpulator.js src/simpulator.flow
