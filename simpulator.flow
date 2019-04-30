@@ -1,0 +1,36 @@
+import rendersupport;
+import material/material_manager;
+import flowutils;
+import runtime;
+import state;
+import display;
+import keyboard;
+
+main() {
+	setWindowTitle("Simple flow9 calculator");
+
+	mManager = makeMaterialManager([]);
+
+	state = makeSimpulatorState();
+
+	body = MLines([
+		makeDisplay(state),
+		makeKeyboard(state)
+	]);
+
+	title = MCols([
+		MText("Simp", [MBlue(500)]),
+		MText("le Calc", [MBlue(300)]),
+		MText("ulator", [MBlue(500)]),
+	]);
+
+	content = MCard(
+		[
+			MRichMediaBlock(title, []),
+			MRichMediaBlock(body, []),
+		],
+		[MContentBorders(true)], []
+	);
+
+	mrender(mManager, true, MCenter(content));
+}

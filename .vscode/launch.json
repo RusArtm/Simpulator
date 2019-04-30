@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "flow",
+            "request": "launch",
+            "target": "simpulator.flow",
+            "cwd": "${workspaceRoot}",
+            "runner_path": "${config:flow.root}/bin/flowcpp",
+            "compiler": "${command:FlowCompiler}"
+        }
+    ]
+}

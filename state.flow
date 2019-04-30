@@ -1,0 +1,63 @@
+import maybe;
+import behaviour;
+import maybe;
+
+export {
+	SimpulatorState : (expressionB : DynamicBehaviour<Maybe<Expression>>);
+	makeSimpulatorState() -> SimpulatorState;
+
+	Expression ::= OpValue, BinaryOperation;
+		OpValue(val : double);
+		BinaryOperation(op1 : Expression, op2 : Expression, type : OperationType);
+
+	OperationType ::= Addition, Subtraction, Multiplication;
+		Addition();
+		Subtraction();
+		Multiplication();
+
+	str2OperationType(s : string) -> OperationType;
+	opType2str(type : OperationType) -> string;
+
+	evaluate(expression : Expression) -> double;
+}
+
+makeSimpulatorState() -> SimpulatorState {
+	SimpulatorState(
+		make(None())
+	);
+}
+
+str2OperationType(s : string) -> OperationType {
+	if (s == "+") Addition()
+	else if (s == "-") Subtraction()
+	else Multiplication();
+}
+
+opType2str(type : OperationType) -> string {
+	switch (type) {
+		Addition(): " + ";
+		Subtraction(): " - ";
+		Multiplication(): " * ";
+	}
+}
+
+evaluate(expression : Expression) -> double {
+	switch(expression) {
+		OpValue(val): {
+			val;
+		}
+		BinaryOperation(op1, op2, type): {
+			v1 = evaluate(op1);
+			v2 = evaluate(op2);
+			applyOperation(v1, v2, type);
+		}
+	}
+}
+
+applyOperation(v1 : double, v2 : double, type : OperationType) -> double {
+	switch (type) {
+		Addition(): v1 + v2;
+		Subtraction(): v1 - v2;
+		Multiplication(): v1 * v2;
+	}
+}

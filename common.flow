@@ -1,0 +1,13 @@
+import material/material;
+import material/material2tropic;
+import string;
+import math/math;
+
+export {
+	numButtonWidth = 80.0;
+	opButtonWidht = 64.0;
+	buttonHeight = 64.0;
+	buttonSize = MFixed(numButtonWidth, buttonHeight);
+	opButtonSize = MFixed(opButtonWidht, buttonHeight);
+	displaySize = MFixed(numButtonWidth * 3.0 + opButtonWidht, buttonHeight);
+}

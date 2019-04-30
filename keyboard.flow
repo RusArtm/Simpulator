@@ -1,0 +1,81 @@
+import common;
+import state;
+
+export {
+	makeKeyboard(state : SimpulatorState) -> Material;
+}
+
+makeKeyboard(state : SimpulatorState) -> Material {
+	makeNumButton = \i -> MFixSize(MTextButton(
+		i2s(i),
+		\ -> handleNumPressed(state, i),
+		[MFullWidth()], []
+	), buttonSize);
+	makeOpButton = \op, raised -> MFixSize(MTextButton(
+		op,
+		\ -> handleOpPressed(state, op),
+		ifArrayPush([], raised, MButtonRaised()) |> (\arr -> ifArrayPush(arr, op == "C", MRed(500))),
+		[]
+	), opButtonSize);
+
+	numPad = MLines([
+		MCols([makeNumButton(7), makeNumButton(6), makeNumButton(9)]),
+		MCols([makeNumButton(4), makeNumButton(5), makeNumButton(6)]),
+		MCols([makeNumButton(1), makeNumButton(2), makeNumButton(3)]),
+		MCols([buttonSize, makeNumButton(0), buttonSize]),
+	]);
+
+	ops = MLines([
+		makeOpButton("C", true),
+		makeOpButton("+", false),
+		makeOpButton("-", false),
+		makeOpButton("*", false),
+	]);
+
+	MCols([numPad, ops]);
+}
+
+handleNumPressed(state : SimpulatorState, num : int) -> void {
+	appendOpValue = \curVal : double -> OpValue(curVal * 10.0 + i2d(num));
+	exprM = getValue(state.expressionB);
+	newExpr = eitherMap(
+		exprM,
+		\expr -> switch (expr) {
+			OpValue(val): {
+				appendOpValue(val)
+			}
+			BinaryOperation(op1, op2, type): {
+				newOp2 = switch (op2) {
+					OpValue(val): appendOpValue(val);
+					default: op2;
+				}
+				BinaryOperation(op1, newOp2, type)
+			}
+		},
+		OpValue(i2d(num))
+	);
+	next(state.expressionB, Some(newExpr));
+}
+
+handleOpPressed(state : SimpulatorState, op : string) -> void {
+	if (op == "C") {
+		next(state.expressionB, None())
+	} else {
+		exprM = getValue(state.expressionB);
+
+		appendOp = \expr -> {
+			newOp1 = switch (expr) {
+				OpValue(val): OpValue(val);
+				BinaryOperation(op1, op2, type): BinaryOperation(op1, op2, type);
+			}
+			BinaryOperation(newOp1, OpValue(0.0), str2OperationType(op));
+		}
+
+		newExpr = eitherMap(
+			exprM,
+			\expr -> appendOp(expr),
+			appendOp(OpValue(0.0))
+		);
+		next(state.expressionB, Some(newExpr));
+	}
+}

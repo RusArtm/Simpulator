@@ -1,0 +1,51 @@
+import common;
+import state;
+
+export {
+	makeDisplay(state : SimpulatorState) -> Material;
+}
+
+makeDisplay(state : SimpulatorState) -> Material {
+	MLet(
+		"content",
+		MFixSize(
+			MCenter(MSelect(state.expressionB, \expr -> MCols([
+				MFillX(),
+				makeExpressionMaterial(expr),
+				MFixedX(16.0),
+				MFixSize(makeEvaluatedText(expr), MFixed(opButtonWidht, buttonHeight))
+			]))),
+			displaySize
+		),
+		MGroup([
+			TRectangle([Stroke(0xffffff), StrokeWidth(2.0)], TGhost("content")),
+			MDisplay("content")
+		])
+	);
+}
+
+makeExpressionMaterial(expressionM : Maybe<Expression>) -> Material {
+	eitherMap(expressionM, \expression -> MText(expression2str(expression), []), MEmpty());
+}
+
+expression2str(expression : Expression) -> string {
+	switch (expression) {
+		OpValue(val): {
+			i2s(trunc(val));
+		}
+		BinaryOperation(op1, op2, type): {
+			expression2str(op1) + opType2str(type) + expression2str(op2)
+		}
+	}
+}
+
+makeEvaluatedText(expressionM : Maybe<Expression>) -> Material {
+	eitherMap(
+		expressionM,
+		\expr -> {
+			val = i2s(trunc(evaluate(expr)));
+			MText("= " + val, []);
+		},
+		MEmpty()
+	);
+}
